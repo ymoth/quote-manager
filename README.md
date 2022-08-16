@@ -11,19 +11,18 @@
 
 
 ```py
-from quote_manager import QuoteManager
+from manager import QuoteManager
 
-avatar_link = "https://.../photo.jpg"
+avatar_link = "https://?..?/photo.jpg"
 
 quote_manager = QuoteManager(fullname="Игорь Неживых",
                              text="Прежде чем осуждать кого-то, возьми его обувь и пройди его путь,"
                                   " попробуй его слёзы, почувствуй его боль."
                                   " Наткнись на каждый камень, о который он споткнулся."
-                                  " И только после этого говори, что ты знаешь как правильно жить…",
-                             path_to_dependencies="default_dependencies",
-                             background_image="background.jpg",
-                             avatar_image=avatar_link,
-                             by_project=None)
+                                  " И только после этого говори, что ты знаешь как правильно жить…",)
+
+quote_manager.sync_create().show_image()
+
 ```
 # На данном фрагменте можно посмотреть аргументы которые попадают в тело класса.
 
