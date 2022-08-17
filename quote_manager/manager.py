@@ -32,7 +32,6 @@ class QuoteManager:
                              " Please put the new argument in the <<text>> object",
                  date: str = "%d.%m.%Y в %H:%M:%S",
                  by_project: typing.Union[str, bool, None] = "by https://github.com/ymoth",
-                 # Image default configuration
                  path_to_dependencies: str = "default_dependencies",
                  background_image: ImageType = "background.jpg",
                  avatar_image: ImageType = "default_avatar.jpg",
@@ -70,7 +69,7 @@ class QuoteManager:
         self._main_text_font = kwargs.get('main_text_font', "zero_5.ttf")
         self._by_project_font = kwargs.get("by_project_font", self._default_font)
 
-    def _prepare_quote_by_avatar_and_by_quote(self, background: Image, avatar: Image) -> Image:
+    def _prepare_quote_by_avatar_and_by_background(self, background: Image, avatar: Image) -> Image:
         """Создание самой цитаты, в которую попадают два параметра:
         background: Image, avatar: Image"""
 
@@ -140,12 +139,12 @@ class QuoteManager:
     async def coroutine_create(self) -> Quote:
         background = await self._async_getting_image_element(self._background_image)
         avatar = await self._async_getting_image_element(self._background_image)
-        return Quote(self._prepare_quote_by_avatar_and_by_quote(background=background, avatar=avatar))
+        return Quote(self._prepare_quote_by_avatar_and_by_background(background=background, avatar=avatar))
 
     def sync_create(self) -> Quote:
         background = self._sync_getting_image_element(self._background_image)
         avatar = self._sync_getting_image_element(self._avatar_image)
-        return Quote(self._prepare_quote_by_avatar_and_by_quote(background=background, avatar=avatar))
+        return Quote(self._prepare_quote_by_avatar_and_by_background(background=background, avatar=avatar))
 
     async def _async_getting_image_element(self, attribute_image: ImageType) -> Image.Image:
         if isinstance(attribute_image, str):
