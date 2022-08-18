@@ -137,7 +137,7 @@ class QuoteManager:
 
     async def coroutine_create(self) -> Quote:
         background = await self._async_getting_image_element(self._background_image)
-        avatar = await self._async_getting_image_element(self._background_image)
+        avatar = await self._async_getting_image_element(self._avatar_image)
         return Quote(self._prepare_quote_by_avatar_and_by_background(background=background, avatar=avatar))
 
     def sync_create(self) -> Quote:
