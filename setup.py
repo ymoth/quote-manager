@@ -14,5 +14,5 @@ setup(
     author_email="tophanbig@gmail.com",
     url="https://github.com/ymoth/quote-manager",
     download_url="https://github.com/ymoth/quote-manager/archives/main.zip",
-    libraries=["aiohttp", "requests", "Pillow"]
+    requires=["aiohttp", "requests", "Pillow"]
 )
