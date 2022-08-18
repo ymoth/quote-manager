@@ -7,14 +7,14 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-from generate_utils import (Quote,
-                            prepare_round_the_resulting_image,
-                            prepare_mask,
-                            prepare_size_by_text_length,
-                            prepare_coordinates_by_text_length)
+from .generate_utils import (Quote,
+                             prepare_round_the_resulting_image,
+                             prepare_mask,
+                             prepare_size_by_text_length,
+                             prepare_coordinates_by_text_length)
 
-from downloader import coroutine_download
-from downloader import download
+from .downloader import coroutine_download
+from .downloader import download
 
 ImageType = typing.TypeVar("ImageType",
                            bound=typing.Union[Image.Image, bytes, io.BytesIO, str])
@@ -27,15 +27,14 @@ def open_image_with_bytes(bytes_argument: bytes) -> Image.Image:
 class QuoteManager:
 
     def __init__(self,
-                 fullname: str = "Igor Nezhivykh",
-                 text: str = "Hello! This is the <Quote Manager> library, the version of this library is 1.0.0."
-                             " Please put the new argument in the <<text>> object",
+                 fullname: str,
+                 text: str,
+                 path_to_dependencies: str,
+                 background_image: ImageType,
+                 avatar_image: ImageType,
+                 default_font: str,
                  date: str = "%d.%m.%Y в %H:%M:%S",
-                 by_project: typing.Union[str, bool, None] = "by https://github.com/ymoth",
-                 path_to_dependencies: str = "default_dependencies",
-                 background_image: ImageType = "background.jpg",
-                 avatar_image: ImageType = "default_avatar.jpg",
-                 default_font: typing.Union[str, None] = "Rubik-Regular.ttf",
+                 by_project: typing.Union[str, None] = None,
                  string_limit: int = 300,
                  string_line_limit: int = 30,
                  **kwargs):
