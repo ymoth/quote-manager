@@ -5,7 +5,7 @@ from setuptools import setup
 :copyright (c) 2022 ymoth
 """
 
-version = "0.0.1"
+version = "1.0.0"
 
 
 setup(
