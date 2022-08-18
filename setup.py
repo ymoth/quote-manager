@@ -5,7 +5,8 @@ from setuptools import setup
 :copyright (c) 2022 ymoth
 """
 
-version = "1.0.1"
+version = "1.0.0"
+
 
 setup(
     name="quote_manager",
@@ -13,6 +14,6 @@ setup(
     author="ymoth",
     author_email="tophanbig@gmail.com",
     url="https://github.com/ymoth/quote-manager",
-    download_url="https://github.com/ymoth/quote-manager/archives/main.zip",
-    requires=["aiohttp", "requests", "Pillow"]
+    download_url="",
+    packages=["qoute_manager"]
 )
