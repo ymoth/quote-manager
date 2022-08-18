@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 """
 :authors: ymoth
@@ -15,5 +15,5 @@ setup(
     author_email="tophanbig@gmail.com",
     url="https://github.com/ymoth/quote-manager",
     download_url="",
-    packages=["qoute_manager/"]
+    packages=find_packages()
 )
