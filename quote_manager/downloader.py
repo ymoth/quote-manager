@@ -1,5 +1,4 @@
 import ssl
-import typing
 
 import aiohttp
 import requests

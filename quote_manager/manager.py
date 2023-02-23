@@ -1,6 +1,6 @@
 import datetime
 import io
-import os
+
 import typing
 
 from PIL import Image
@@ -16,8 +16,10 @@ from .generate_utils import (Quote,
 from .downloader import coroutine_download
 from .downloader import download
 
-ImageType = typing.TypeVar("ImageType",
-                           bound=typing.Union[Image.Image, bytes, io.BytesIO, str])
+ImageType = typing.TypeVar(
+    "ImageType",
+    bound=typing.Union[Image.Image, bytes, io.BytesIO, str]
+)
 
 
 def open_image_with_bytes(bytes_argument: bytes) -> Image.Image:
@@ -26,18 +28,20 @@ def open_image_with_bytes(bytes_argument: bytes) -> Image.Image:
 
 class QuoteManager:
 
-    def __init__(self,
-                 fullname: str,
-                 text: str,
-                 path_to_dependencies: str,
-                 default_font: str,
-                 date: str = "%d.%m.%Y в %H:%M:%S",
-                 by_project: typing.Union[str, bool, None] = "by https://github.com/ymoth",
-                 background_image: ImageType = "background.jpg",
-                 avatar_image: ImageType = "default_avatar.jpg",
-                 string_limit: int = 300,
-                 string_line_limit: int = 30,
-                 **kwargs):
+    def __init__(
+            self,
+            fullname: str,
+            text: str,
+            path_to_dependencies: str,
+            default_font: str,
+            date: str = "%d.%m.%Y в %H:%M:%S",
+            by_project: typing.Union[str, bool, None] = "by https://github.com/ymoth",
+            background_image: ImageType = "background.jpg",
+            avatar_image: ImageType = "default_avatar.jpg",
+            string_limit: int = 300,
+            string_line_limit: int = 30,
+            **kwargs
+    ):
 
         # Default arguments
         self._path_to_dependencies = path_to_dependencies
@@ -86,28 +90,38 @@ class QuoteManager:
         crop_background_image.paste(avatar, self._coordinates_avatar, image_mask)
 
         prepare_image_draw = ImageDraw.Draw(crop_background_image)
-        prepare_image_draw.text(self._coordinates_fullname, self._fullname,
-                                font=self._generate_font(20))
+        prepare_image_draw.text(
+            self._coordinates_fullname, self._fullname,
+            font=self._generate_font(20)
+        )
 
         # Проверка на дату и добавление данных в цитату
         if self._date is not None:
-            prepare_image_draw.text(self._coordinates_date,
-                                    self._crop_message(datetime.datetime.now().strftime(self._date)),
-                                    font=self._generate_font(20, font=self._date_font))
+            prepare_image_draw.text(
+                self._coordinates_date,
+                self._crop_message(datetime.datetime.now().strftime(self._date)),
+                font=self._generate_font(20, font=self._date_font)
+            )
 
         # Проверка на проект и добавление данных в цитату
         if self._by_project is not None:
-            prepare_image_draw.text(self._coordinates_by_project, self._crop_message(self._by_project, limit=30, ),
-                                    font=self._generate_font(20, font=self._by_project_font))
+            prepare_image_draw.text(
+                self._coordinates_by_project, self._crop_message(self._by_project, limit=30, ),
+                font=self._generate_font(20, font=self._by_project_font)
+            )
 
         # Подставка текста, автоматическая реализация сайзинга и обрезания сообщения
         # За сайзинг отвечает функция generate_utils.prepare_size_by_text_length:55
         # За центрирование(координаты) отвечает функция prepare_coordinates_by_text_length:69
-        prepare_image_draw.text(prepare_coordinates_by_text_length(self._text),
-                                self._crop_message(self._text),
-                                font=ImageFont.truetype(self._path_to_dependencies + "//" + self._main_text_font,
-                                                        size=prepare_size_by_text_length(self._main_text_font),
-                                                        encoding="utf-8"))
+        prepare_image_draw.text(
+            prepare_coordinates_by_text_length(self._text),
+            self._crop_message(self._text),
+            font=ImageFont.truetype(
+                self._path_to_dependencies + "//" + self._main_text_font,
+                size=prepare_size_by_text_length(self._main_text_font),
+                encoding="utf-8"
+            )
+        )
 
         # Сохранение в io.Bytes()
         img_byte_arr = io.BytesIO()
@@ -118,14 +132,12 @@ class QuoteManager:
 
     def _generate_font(self, font_size: int = None, font: str = None) -> Image:
         font_size = 40 if font_size is None else font_size
-        font = font if font else self._default_font
-        if font not in os.listdir(self._path_to_dependencies) or self._default_font is None:
-            font = os.getcwd() + "/default_dependencies/Rubik-Regular.ttf"
-        else:
-            font = self._default_font
+        font = font or self._default_font
+        file = open(self._path_to_dependencies + "//" + font, "rb")
+        bytes_font = io.BytesIO(file.read())
 
         return ImageFont.truetype(
-            self._path_to_dependencies + "//" + font,
+            bytes_font,
             size=font_size, encoding="utf-8"
         )
 
